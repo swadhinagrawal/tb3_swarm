@@ -27,13 +27,17 @@ def generate_launch_description():
 
     use_sim_time = LaunchConfiguration('use_sim_time', default='false')
     urdf_file_name = 'turtlebot3_' + TURTLEBOT3_MODEL + '.urdf'
-
+    sdf_file = 'turtlebot3_' + TURTLEBOT3_MODEL +'/model.sdf'
     print('urdf_file_name : {}'.format(urdf_file_name))
 
     urdf = os.path.join(
         get_package_share_directory('turtlebot3_description'),
         'urdf',
         urdf_file_name)
+    sdf = os.path.join(
+        get_package_share_directory('turtlebot3_gazebo'),
+        'models',
+        sdf_file)
     # Names and poses of the robots
     robots = agents_list(10)
 
@@ -47,7 +51,7 @@ def generate_launch_description():
                 os.path.join(get_package_share_directory('swarm'),
                                                            'spawn_tb3.launch.py')),
                 launch_arguments={
-                                  'robot_urdf':urdf,
+                                  'robot_urdf':sdf,
                                   'x': TextSubstitution(text=str(robot['x_pose'])),
                                   'y': TextSubstitution(text=str(robot['y_pose'])),
                                   'z': TextSubstitution(text=str(robot['z_pose'])),

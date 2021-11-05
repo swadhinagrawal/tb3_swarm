@@ -7,7 +7,7 @@ from geometry_msgs.msg import Twist,Pose2D
 
 import os
 import datetime as date
-import keyboard
+from functools import partial
 
 class params:
 	def __init__(self):
@@ -34,7 +34,7 @@ class params:
 		self.num_L = 1
 		self.L_type = 'L'
 		self.a_type = 'SA'
-		self.num_SA = 3
+		self.num_SA = 10
 		self.init_patch_radius = 1.5*(self.num_SA+self.num_L)
 		self.init_patch_center = [50,50] #np.random.uniform(self.boundary_min+self.init_patch_radius,
                                           #          self.boundary_max-self.init_patch_radius,2)
@@ -251,7 +251,7 @@ class Publisher(Node):
 		super().__init__('publisher_subscriber')
 		self.publisher_ = None
 		time_period = 0.5
-		self.timer = create.self_timer(time_period,self.loop_callback)
+		self.timer = self.create_timer(time_period,self.loop_callback)
 	
 	def callback(self,msg,thisAgent):
 		thisAgent.pose = np.array([msg.x,msg.y])
@@ -278,7 +278,7 @@ class Publisher(Node):
 			velocity_message = Twist()
 			cmd_vel_topic='/tb3_'+str(i)+'/cmd_vel'
 			self.publisher_ = self.create_publisher(Twist,cmd_vel_topic,10)
-			velocity_message.linear.x = P.agent_speed
+			velocity_message.linear.x = np.float(P.agent_speed)
 			velocity_message.angular.z = np.float(SA_agents[i].ang_vel)
 			self.publisher_.publish(velocity_message)
 

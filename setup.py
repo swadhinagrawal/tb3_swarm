@@ -14,7 +14,7 @@ setup(
         ('share/' + package_name, ['package.xml']),
         (os.path.join('share',package_name),glob('launch/*.launch.py')),
         (os.path.join('share',package_name),glob('launch/*.py')),
-#        (os.path.join('share',package_name),glob('models/*')),
+        (os.path.join('share',package_name),glob('models/turtlebot3_burger/*.sdf')),
 #        (os.path.join('share',package_name),glob('rviz/*')),
 #        (os.path.join('share',package_name),glob('worlds/*')),
     ],
@@ -27,7 +27,7 @@ setup(
     tests_require=['pytest'],
     entry_points={
         'console_scripts': [
-            'swarm = swarm.swarm:swarm',
+            'swarm = swarm.pubsub:pubsub',
             'spawn_tb3 = swarm.spawn_tb3:main'
         ],
     },
